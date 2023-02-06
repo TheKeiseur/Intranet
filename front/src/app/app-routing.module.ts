@@ -21,6 +21,10 @@ const routes: Routes = [
   {
     path: 'user/:id/edit',
     loadChildren: () => import('./views/edit/edit.module').then(m => m.EditModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('./views/home/home.module').then(m => m.HomeModule)
   }
 ];
 
