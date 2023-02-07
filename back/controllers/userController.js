@@ -48,13 +48,15 @@ export  async function login(req,res){
             let token = response.token
             let userId = response.id
             let photo = response.photo
+            let isAdmin = response.isAdmin
 
 
             let obj = {
                 idToken:token,
                 expiresIn: EXPIRESIN,
                 id:userId,
-                photo : photo
+                photo : photo,
+                isAdmin: isAdmin
             }
         return res.json(obj)
     }else{
