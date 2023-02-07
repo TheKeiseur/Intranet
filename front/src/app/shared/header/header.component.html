@@ -1,26 +1,30 @@
 <mat-toolbar color="primary" class="header">
-  <a mat-button aria-label="List button" routerLink="/home" class="mat-button">
+  <a mat-button aria-label="List button" routerLink="/home" class="nav-link">
     <h1 class="align-vertical">
       <mat-icon>account_tree</mat-icon>
       Intranet
     </h1>
   </a>
   <span class="example-spacer"></span>
-  <div *ngIf="connectedUser; else login">
-    <a mat-button aria-label="List button" routerLink="/users">
+  <div *ngIf="isLoggedIn() && connectedUser; else login">
+    <a mat-button aria-label="List button" routerLink="/users" class="nav-link">
       <mat-icon>list</mat-icon>
       Liste
     </a>
-    <a mat-button [routerLink]="'/user/'+connectedUser.id+'/edit'">
-      <img [src]="connectedUser.photo" alt="User picture" class="mat-mdc-card-avatar">
+    <a mat-button aria-label="List button" routerLink="/user/create" class="nav-link" *ngIf="connectedUser.isAdmin">
+      <mat-icon>person</mat-icon>
+      Ajouter
     </a>
-    <a mat-button (click)="logout()">
+    <a mat-button [routerLink]="'/user/'+connectedUser.userId+'/edit'" class="nav-link">
+      <img [src]="connectedUser.userPhoto" alt="User picture" class="mat-mdc-card-avatar">
+    </a>
+    <a mat-button aria-label="Logout button" (click)="logout()" class="nav-link">
       <mat-icon>logout</mat-icon>
       Déconnexion
     </a>
   </div>
   <ng-template #login>
-    <a mat-button aria-label="Login button">
+    <a mat-button aria-label="Login button" routerLink="/login" class="nav-link">
       <mat-icon>login</mat-icon>
       Connexion
     </a>

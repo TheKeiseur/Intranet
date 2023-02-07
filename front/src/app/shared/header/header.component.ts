@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {SimplifiedUser} from "../../services/User";
+import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
-import {User} from "../../services/User";
 
 @Component({
   selector: 'app-header',
@@ -9,16 +10,25 @@ import {User} from "../../services/User";
 })
 export class HeaderComponent implements OnInit {
 
-  public connectedUser?: User;
+  public connectedUser?: SimplifiedUser;
 
-  constructor(private userService: UserService) { }
+  constructor(private auth: AuthService,
+              private userService: UserService) {
+  }
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe(user => this.connectedUser = user);
+    this.connectedUser = this.userService.getSimplifiedUser();
+  }
+
+  isLoggedIn() {
+    if (this.auth.isLoggedIn()) {
+      this.connectedUser = this.userService.getSimplifiedUser();
+    }
+    return this.auth.isLoggedIn();
   }
 
   logout() {
     this.connectedUser = undefined;
-    this.userService.logout();
+    this.auth.logout();
   }
 }

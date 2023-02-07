@@ -13,3 +13,14 @@ export interface User {
   category: string;
   isAdmin: boolean;
 }
+
+export interface SimplifiedUser {
+  userId: string;
+  userPhoto: string;
+  isAdmin: boolean;
+}
+
+export interface UserConnexionDto extends SimplifiedUser {
+  idToken: string;
+  expiresIn: string;
+}
