@@ -1,20 +1,18 @@
 import express from "express";
-
 import { Router } from "express";
-
 const router = Router();
 
-import HomeController from "../controllers/home.js";
-import AdminController from "../controllers/admin.js";
 
 
+import HomeController from "../controllers/homeController.js";
 
+import {users, getUserById} from '../controllers/userController.js'
 
-// Déclaration des routes
 
 // GET
 router.get("/", HomeController);
-router.get("/content/users", AdminController);
+router.get("/users", users);
+router.get("/user/:id", getUserById);
 
 // POST
 

@@ -18,6 +18,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 
+// app.use(bodyParser.json())
 // Middleware pour traiter les données POST au format "x-www-form-urlencoded"
 app.use(express.urlencoded({ extended: false }));
 
