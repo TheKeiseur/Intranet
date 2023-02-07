@@ -1,1 +1,28 @@
-<p>header works!</p>
+<mat-toolbar color="primary" class="header">
+  <a mat-button aria-label="List button" routerLink="/home" class="mat-button">
+    <h1 class="align-vertical">
+      <mat-icon>account_tree</mat-icon>
+      Intranet
+    </h1>
+  </a>
+  <span class="example-spacer"></span>
+  <div *ngIf="connectedUser; else login">
+    <a mat-button aria-label="List button" routerLink="/users">
+      <mat-icon>list</mat-icon>
+      Liste
+    </a>
+    <a mat-button [routerLink]="'/user/'+connectedUser.id+'/edit'">
+      <img [src]="connectedUser.photo" alt="User picture" class="mat-mdc-card-avatar">
+    </a>
+    <a mat-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Déconnexion
+    </a>
+  </div>
+  <ng-template #login>
+    <a mat-button aria-label="Login button">
+      <mat-icon>login</mat-icon>
+      Connexion
+    </a>
+  </ng-template>
+</mat-toolbar>
