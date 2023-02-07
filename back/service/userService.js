@@ -1,7 +1,14 @@
 import {connectToMongo} from "../Models/db.js";
 import {UserModel} from "../Models/User.js";
+import crypto from "crypto";
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
-connectToMongo().then(r => console.log(r));
+
+dotenv.config();
+const {AUTH_SECRET,EXPIRESIN } = process.env;
+connectToMongo().then(r => r);
 
 
 export async function findById(id){
@@ -12,5 +19,43 @@ export async function findById(id){
 export async function getAllUsers(){
     const users = await UserModel.find();
     return users;
+}
+
+export async function loginService(email,password){
+     // we can't hash befor veriying with bcrypt
+        // const saltRounds = 10;
+        // const hashedPass = await bcrypt.hash(password, saltRounds);
+
+    const user = await UserModel.findOne({email : email});
+
+
+    if(user){
+        let userPassHash = user.password
+        let id = user.id
+        const verified = bcrypt.compareSync(password, userPassHash);
+
+        if( verified){
+            let date = new Date();
+            let dateString = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+
+            const info ={
+                id:id,
+                email: email,
+                period: dateString,
+            }
+            const token = jwt.sign(
+                info,
+                AUTH_SECRET,
+                { expiresIn: EXPIRESIN }   // validité temps
+            );
+            user.token = token
+
+            return  user
+        }else {
+            return null
+        }
+    }else{
+        return  null
+    }
 }
 
