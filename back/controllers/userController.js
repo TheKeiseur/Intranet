@@ -1,6 +1,6 @@
 import {connectToMongo} from "../Models/db.js";
 import {UserModel} from "../Models/User.js";
-import  {findByOne, getAllUsers} from '../service/userService.js'
+import  {findById, getAllUsers} from '../service/userService.js'
 
 connectToMongo().then(r => console.log(r));
 /**
@@ -10,10 +10,7 @@ connectToMongo().then(r => console.log(r));
  * @returns {Promise<void>}
  */
 export  async function users(req,res){
-    const users = await UserModel.find();
-    console.log(users);
-    let response = {}
-    response = await getAllUsers()
+    let response = await getAllUsers()
 
     return  res.json(response)
 }
@@ -26,8 +23,7 @@ export  async function users(req,res){
  */
 export   async function getUserById(req,res){
     let id = 1
-   let rep = {}
-    rep = await findByOne(id);
+   let rep = await findById(id);
    // let nom =  ....
     return  res.json(rep)
 }

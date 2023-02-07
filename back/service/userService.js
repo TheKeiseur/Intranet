@@ -4,7 +4,7 @@ import {UserModel} from "../Models/User.js";
 connectToMongo().then(r => console.log(r));
 
 
-export async function findByOne(id){
+export async function findById(id){
     const user = await UserModel.findOne({id:id });
     return user;
 }
