@@ -6,7 +6,8 @@ const router = Router();
 
 import HomeController from "../controllers/homeController.js";
 
-import {users, getUserById} from '../controllers/userController.js'
+import {users, getUserById,login} from '../controllers/userController.js'
+import {guard} from '../service/userService.js'
 
 
 // GET
@@ -15,6 +16,8 @@ router.get("/users", users);
 router.get("/user/:id", getUserById);
 
 // POST
+router.post("/login", login);
+
 
 
 export default router;
