@@ -1,14 +1,14 @@
 import {connectToMongo} from "../Models/db.js";
 import {UserModel} from "../Models/User.js";
-import  {findById, getAllUsers,loginService} from '../service/userService.js'
+ 
+import  {findById, getAllUsers,loginService,getRandomUser} from '../service/userService.js'
+ 
+ 
 import dotenv from "dotenv";
 
 
 dotenv.config();
 const {EXPIRESIN } = process.env;
-
-
-
 
 /**
  * users http://{hostname}:{port}/users
@@ -62,6 +62,20 @@ export  async function login(req,res){
     }else{
         res.status(400).json({ message: "Invalid credentials" });
     }
+}
+
+/**
+ * Login http://{hostname}:{port}/random-user
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
+export  async function randomUser(req,res){
+    let token = req.headers.authorization;
+    
+    let response = await getRandomUser(token)
+
+    return  res.json(response)
 }
 
 

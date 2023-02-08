@@ -21,6 +21,15 @@ export async function getAllUsers(){
     return users;
 }
 
+export async function getRandomUser(token){
+    const reverseToken = jwt.verify(token, AUTH_SECRET);
+
+    //db.users.find({id: { $ne: "20" }});
+    const users = await UserModel.find({id: { $ne: reverseToken.id }});
+    const randomIndex = Math.floor(Math.random() * users.length);
+    return users[randomIndex];
+}
+
 export async function loginService(email,password){
     const user = await UserModel.findOne({email : email});
 
