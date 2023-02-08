@@ -64,7 +64,7 @@ export async function loginService(email,password){
 
 // MIDDLEWARES  VERIFICATION SI LE TOKEN EXISTE
 export const guard = (req,res,next) =>{
-    const token = req.headers.idToken;
+    let token = req.headers.idToken;
 
     try {
         const verif = jwt.verify(token, AUTH_SECRET);
