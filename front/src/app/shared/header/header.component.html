@@ -15,8 +15,8 @@
       <mat-icon>person</mat-icon>
       Ajouter
     </a>
-    <a mat-button [routerLink]="'/user/'+connectedUser.userId+'/edit'" class="nav-link">
-      <img [src]="connectedUser.userPhoto" alt="User picture" class="mat-mdc-card-avatar">
+    <a mat-button [routerLink]="'/user/'+connectedUser.id+'/edit'" class="nav-link">
+      <img [src]="connectedUser.photo" alt="User picture" class="mat-mdc-card-avatar">
     </a>
     <a mat-button aria-label="Logout button" (click)="logout()" class="nav-link">
       <mat-icon>logout</mat-icon>

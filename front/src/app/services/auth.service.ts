@@ -11,8 +11,8 @@ import * as moment from "moment";
 export class AuthService {
 
   public baseUser: UserConnexionDto = {
-    "userId": "1",
-    "userPhoto": "https://randomuser.me/api/portraits/men/40.jpg",
+    "id": "1",
+    "photo": "https://randomuser.me/api/portraits/men/40.jpg",
     "isAdmin": true,
     "idToken": "hfezhfozhfeozjfk",
     "expiresIn": "1675782896105"
@@ -29,7 +29,7 @@ export class AuthService {
     return this.http.post<UserConnexionDto>(`${environment.baseUrl}/login`, body).pipe(
       tap(authResult => this.setSession(authResult)),
       map((authResult: UserConnexionDto) => {
-        return {userId: authResult.userId, userPhoto: authResult.userPhoto, isAdmin: authResult.isAdmin};
+        return {id: authResult.id, photo: authResult.photo, isAdmin: authResult.isAdmin};
       }),
     );
   }
@@ -38,8 +38,8 @@ export class AuthService {
     const expiresAt = moment().add(user.expiresIn, 'second');
     localStorage.setItem('id_token', user.idToken);
     localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
-    localStorage.setItem("user_id", user.userId);
-    localStorage.setItem("user_photo", user.userPhoto);
+    localStorage.setItem("user_id", user.id);
+    localStorage.setItem("user_photo", user.photo);
     localStorage.setItem("is_admin", String(user.isAdmin));
   }
 
@@ -66,11 +66,16 @@ export class AuthService {
     return moment(expiresAt);
   }
 
-  getStorageUser(): SimplifiedUser {
-    return {
-      userId: localStorage.getItem("user_id") ? localStorage.getItem("user_id")! : '',
-      userPhoto: localStorage.getItem("user_photo") ? localStorage.getItem("user_photo")! : '',
-      isAdmin: (localStorage.getItem("is_admin") === 'true')
-    };
+  getStorageUser(): SimplifiedUser | undefined {
+    if (localStorage.getItem("user_id")
+      && localStorage.getItem("user_photo")
+      && localStorage.getItem("is_admin")) {
+      return {
+        id: localStorage.getItem("user_id")!,
+        photo: localStorage.getItem("user_photo")!,
+        isAdmin: (localStorage.getItem("is_admin") === 'true')
+      };
+    }
+    return undefined;
   }
 }

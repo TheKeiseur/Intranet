@@ -15,8 +15,8 @@ export interface User {
 }
 
 export interface SimplifiedUser {
-  userId: string;
-  userPhoto: string;
+  id: string;
+  photo: string;
   isAdmin: boolean;
 }
 
