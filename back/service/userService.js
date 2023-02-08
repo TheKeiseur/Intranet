@@ -22,10 +22,6 @@ export async function getAllUsers(){
 }
 
 export async function loginService(email,password){
-     // we can't hash befor veriying with bcrypt
-        // const saltRounds = 10;
-        // const hashedPass = await bcrypt.hash(password, saltRounds);
-
     const user = await UserModel.findOne({email : email});
 
 
@@ -52,19 +48,22 @@ export async function loginService(email,password){
 
             return  user
         }else {
-            return null
+            return {
+                error: 401,
+                message: "Unauthorized - Incorrect password"
+            }
         }
     }else{
-        return  null
+        return {
+            error: 404,
+            message: "User not found"
+        }
     }
 }
 
 
 // MIDDLEWARES  VERIFICATION SI LE TOKEN EXISTE
 export const guard = (req,res,next) =>{
-   // let {idToken} = req.body; //  
-
-  //  const token = idToken;
     const token = req.headers.idToken;
 
     try {
