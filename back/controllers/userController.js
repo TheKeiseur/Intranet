@@ -10,9 +10,6 @@ import dotenv from "dotenv";
 dotenv.config();
 const {EXPIRESIN } = process.env;
 
-
-
-
 /**
  * users http://{hostname}:{port}/users
  * @param req
@@ -74,7 +71,9 @@ export  async function login(req,res){
  * @returns {Promise<*>}
  */
 export  async function randomUser(req,res){
-    let response = await getRandomUser()
+    let token = req.headers.authorization;
+    
+    let response = await getRandomUser(token)
 
     return  res.json(response)
 }
