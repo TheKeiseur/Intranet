@@ -2,6 +2,11 @@
   flex: 1 1 auto;
 }
 
+.nav-link:hover {
+  color: white;
+  text-decoration: none;
+}
+
 .align-vertical {
   display: flex;
   align-items: center;

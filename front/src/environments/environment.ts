@@ -5,7 +5,7 @@ import {localVariables} from "./environment-local";
 
 export const environment = {
   production: false,
-  baseUrl: `https://${localVariables.API_HOST}:${localVariables.API_PORT}/`
+  baseUrl: `https://${localVariables.API_HOST}:${localVariables.API_PORT}`
 };
 
 /*
