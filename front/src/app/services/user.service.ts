@@ -20,6 +20,14 @@ export class UserService {
     return this.http.get<User>(`${environment.baseUrl}/user/${id}`);
   }
 
+  getRandomUser(): Observable<User> {
+    return this.http.get<User>(`${environment.baseUrl}/random-user`);
+  }
+
+  deleteUserById(id: string) {
+
+  }
+
   getSimplifiedUser(): SimplifiedUser | undefined {
     if (!this.user && this.authService.isLoggedIn()) {
       this.user = this.authService.getStorageUser();
