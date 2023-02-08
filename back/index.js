@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import cors from "cors"
 
 import route from "./routes/routes.js";
 
@@ -16,11 +17,21 @@ const { APP_HOSTNAME, APP_PORT, NODE_ENV } = process.env;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
-app.use(express.static(path.join(__dirname, "public")));
 
+app.use(cors({
+    origin: [
+        "http://localhost:4200"
+    ], credentials: true
+}));
+
+app.use(express.json())
 // app.use(bodyParser.json())
+
 // Middleware pour traiter les données POST au format "x-www-form-urlencoded"
 app.use(express.urlencoded({ extended: false }));
+
+
+app.use(express.static(path.join(__dirname, "public")));
 
 
 // ==========
