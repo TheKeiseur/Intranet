@@ -50,24 +50,18 @@ export  async function login(req,res){
         if(response.error){
             return res.status(response.error).json({ message: response.message });
         }else{
-            let token = response.token
-            let userId = response.id
-            let photo = response.photo
-            let isAdmin = response.isAdmin
-
             let obj = {
-                idToken:token,
+                idToken:response.token,
                 expiresIn: EXPIRESIN,
-                id:userId,
-                photo : photo,
-                isAdmin: isAdmin
+                id:response.id,
+                photo : response.photo,
+                isAdmin: response.isAdmin
             }
-            return res.json(obj)
+            return res.status(200).json(obj)
         }
     }else{
         res.status(400).json({ message: "Invalid credentials" });
     }
-
 }
 
 

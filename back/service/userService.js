@@ -24,7 +24,6 @@ export async function getAllUsers(){
 export async function loginService(email,password){
     const user = await UserModel.findOne({email : email});
 
-
     if(user){
         let userPassHash = user.password
         let id = user.id
@@ -68,7 +67,6 @@ export const guard = (req,res,next) =>{
 
     try {
         const verif = jwt.verify(token, AUTH_SECRET);
-
         // console.log(verif, 'is valid!');
         next();
     }
