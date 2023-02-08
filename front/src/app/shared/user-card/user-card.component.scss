@@ -1,0 +1,16 @@
+@use '@angular/material' as mat;
+
+.example-card {
+  max-width: 40rem;
+  box-shadow: 0 0 12px #bababa;
+}
+
+p {
+  font-size: 1.2rem;
+}
+
+.card-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
