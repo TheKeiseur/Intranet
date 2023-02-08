@@ -1,14 +1,10 @@
-import {connectToMongo} from "../Models/db.js";
-import {UserModel} from "../Models/User.js";
- 
-import  {findById, getAllUsers,loginService,getRandomUser} from '../service/userService.js'
- 
- 
+import { authenticateAndGenerateToken, findById, getAllUsers, getRandomUser } from '../service/userService.js'
+
 import dotenv from "dotenv";
 
 
 dotenv.config();
-const {EXPIRESIN } = process.env;
+const { EXPIRESIN } = process.env;
 
 /**
  * users http://{hostname}:{port}/users
@@ -16,10 +12,9 @@ const {EXPIRESIN } = process.env;
  * @param res
  * @returns {Promise<void>}
  */
-export  async function users(req,res){
-    let response = await getAllUsers()
-
-    return  res.json(response)
+export async function users(req, res) {
+  let response = await getAllUsers();
+  return res.status(200).json(response);
 }
 
 /**
@@ -28,11 +23,10 @@ export  async function users(req,res){
  * @param res
  * @returns {Promise<*>}
  */
-export   async function getUserById(req,res){
-    let id = 1
-   let rep = await findById(id);
-   // let nom =  ....
-    return  res.json(rep)
+export async function getUserById(req, res) {
+  let id = req.auth.userId;
+  let rep = await findById(id);
+  return res.status(200).json(rep)
 }
 
 /**
@@ -41,27 +35,14 @@ export   async function getUserById(req,res){
  * @param res
  * @returns {Promise<*>}
  */
-export  async function login(req,res){
-    let {email, password } = req.body;
-    let response = await loginService(email,password);
-    // return res.json(response) // to show user info
-
-    if(typeof response === 'object' && response !== null){
-        if(response.error){
-            return res.status(response.error).json({ message: response.message });
-        }else{
-            let obj = {
-                idToken:response.token,
-                expiresIn: EXPIRESIN,
-                id:response.id,
-                photo : response.photo,
-                isAdmin: response.isAdmin
-            }
-            return res.status(200).json(obj)
-        }
-    }else{
-        res.status(400).json({ message: "Invalid credentials" });
-    }
+export async function login(req, res) {
+  let { email, password } = req.body;
+  try {
+    let token = await authenticateAndGenerateToken(email, password);
+    return res.status(200).json({ "idToken": token })
+  } catch (err) {
+    return res.status(401).message(err.message);
+  }
 }
 
 /**
@@ -70,12 +51,9 @@ export  async function login(req,res){
  * @param res
  * @returns {Promise<*>}
  */
-export  async function randomUser(req,res){
-    let token = req.headers.authorization;
-    
-    let response = await getRandomUser(token)
-
-    return  res.json(response)
+export async function randomUser(req, res) {
+  let randomUser = await getRandomUser(req.auth.userId);
+  return res.status(200).json(randomUser);
 }
 
 

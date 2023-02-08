@@ -1,26 +1,18 @@
-import express from "express";
 import { Router } from "express";
-const router = Router();
-
-
-
 import HomeController from "../controllers/homeController.js";
+import { getUserById, login, randomUser, users } from '../controllers/userController.js';
+import { authGuard } from '../middlewares/AuthGuard.js';
 
-
-import {users, getUserById,login,randomUser} from '../controllers/userController.js'
-import {guard} from '../service/userService.js'
-
+const router = Router();
 
 // GET
 router.get("/", HomeController);
-router.get("/users", users);
-router.get("/user/:id", getUserById);
-router.get("/random-user", randomUser);
+router.get("/users", authGuard, users);
+router.get("/user/:id", authGuard, getUserById);
+router.get("/random-user", authGuard, randomUser);
 
 
 // POST
 router.post("/login", login);
-
-
 
 export default router;

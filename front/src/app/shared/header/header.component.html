@@ -6,17 +6,17 @@
     </h1>
   </a>
   <span class="example-spacer"></span>
-  <div *ngIf="isLoggedIn() && connectedUser; else login">
+  <div *ngIf="isLoggedIn(); else login">
     <a mat-button aria-label="List button" routerLink="/users" class="nav-link">
       <mat-icon>list</mat-icon>
       Liste
     </a>
-    <a mat-button aria-label="List button" routerLink="/user/create" class="nav-link" *ngIf="connectedUser.isAdmin">
+    <a mat-button aria-label="List button" routerLink="/user/create" class="nav-link" *ngIf="connectedUser!.isAdmin">
       <mat-icon>person</mat-icon>
       Ajouter
     </a>
-    <a mat-button [routerLink]="'/user/'+connectedUser.id+'/edit'" class="nav-link">
-      <img [src]="connectedUser.photo" alt="User picture" class="mat-mdc-card-avatar">
+    <a mat-button [routerLink]="'/user/'+connectedUser!.id+'/edit'" class="nav-link">
+      <img [src]="connectedUser!.photo" alt="User picture" class="mat-mdc-card-avatar">
     </a>
     <a mat-button aria-label="Logout button" (click)="logout()" class="nav-link">
       <mat-icon>logout</mat-icon>

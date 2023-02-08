@@ -1,81 +1,79 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {map, Observable, tap} from "rxjs";
-import {SimplifiedUser, UserConnexionDto} from "./User";
+import {Observable, tap} from "rxjs";
+import {User} from "./User";
 import {environment} from "../../environments/environment";
-import * as moment from "moment";
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  public baseUser: UserConnexionDto = {
-    "id": "1",
-    "photo": "https://randomuser.me/api/portraits/men/40.jpg",
-    "isAdmin": true,
-    "idToken": "hfezhfozhfeozjfk",
-    "expiresIn": "1675782896105"
+  connectedUser?: User;
+
+  constructor(private http: HttpClient,
+              private jwtService: JwtHelperService,
+              private router: Router) {
+    this.connectedUser = this.getConnectedUser();
   }
 
-  constructor(private http: HttpClient) {
-  }
-
-  login(email: string, password: string): Observable<SimplifiedUser> {
+  login(email: string, password: string): Observable<{ "idToken": string }> {
     const body = {
       "email": email,
       "password": password
     }
-    return this.http.post<UserConnexionDto>(`${environment.baseUrl}/login`, body).pipe(
-      tap(authResult => this.setSession(authResult)),
-      map((authResult: UserConnexionDto) => {
-        return {id: authResult.id, photo: authResult.photo, isAdmin: authResult.isAdmin};
-      }),
+    return this.http.post<{ "idToken": string }>(`${environment.baseUrl}/login`, body).pipe(
+      tap(response => this.setSession(response.idToken))
     );
   }
 
-  private setSession(user: UserConnexionDto) {
-    const expiresAt = moment().add(user.expiresIn, 'second');
-    localStorage.setItem('id_token', user.idToken);
-    localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
-    localStorage.setItem("user_id", user.id);
-    localStorage.setItem("user_photo", user.photo);
-    localStorage.setItem("is_admin", String(user.isAdmin));
+  getConnectedUser(): User | undefined {
+    if (this.isLoggedIn()) {
+      if (!this.connectedUser) {
+        this.connectedUser = this.getTokenInfos(localStorage.getItem("id_token")!);
+      }
+      return this.connectedUser;
+    }
+    return undefined;
+  }
+
+  setConnectedUser(user: User): void {
+    this.connectedUser = user;
+  }
+
+  setSession(token: string): User {
+    localStorage.setItem('id_token', token);
+    const tokenInfo = this.jwtService.decodeToken(token);
+    this.setConnectedUser(tokenInfo);
+    return tokenInfo;
   }
 
   logout() {
     localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
-    localStorage.removeItem("user_id");
-    localStorage.removeItem("user_photo");
-    localStorage.removeItem("is_admin");
+    this.connectedUser = undefined;
+    this.router.navigateByUrl('/login');
   }
 
-  public isLoggedIn() {
-    return moment().isBefore(this.getExpiration());
+  public isLoggedIn(): boolean {
+    const token = localStorage.getItem("id_token");
+    if (token && this.jwtService.isTokenExpired(token)) {
+      this.logout();
+    }
+    return !!token;
   }
 
   isLoggedOut() {
     return !this.isLoggedIn();
   }
 
-  getExpiration() {
-    const expiration = localStorage.getItem("expires_at");
-    // @ts-ignore
-    const expiresAt = JSON.parse(expiration);
-    return moment(expiresAt);
+  public getIsAdmin(): boolean {
+    return this.getConnectedUser() ? this.getConnectedUser()!.isAdmin : false;
   }
 
-  getStorageUser(): SimplifiedUser | undefined {
-    if (localStorage.getItem("user_id")
-      && localStorage.getItem("user_photo")
-      && localStorage.getItem("is_admin")) {
-      return {
-        id: localStorage.getItem("user_id")!,
-        photo: localStorage.getItem("user_photo")!,
-        isAdmin: (localStorage.getItem("is_admin") === 'true')
-      };
-    }
-    return undefined;
+  private getTokenInfos(token: string): User {
+    return this.jwtService.decodeToken(token)!;
   }
+
 }
