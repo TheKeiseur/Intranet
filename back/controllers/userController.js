@@ -7,6 +7,9 @@ import dotenv from "dotenv";
 dotenv.config();
 const {EXPIRESIN } = process.env;
 
+let token = ""
+let isConnected = false;
+
 
 /**
  * users http://{hostname}:{port}/users
@@ -45,7 +48,7 @@ export  async function login(req,res){
     // return res.json(response) // to show user info
 
     if(typeof response === 'object' && response !== null){
-            let token = response.token
+             token = response.token
             let userId = response.id
             let photo = response.photo
             let isAdmin = response.isAdmin
@@ -58,9 +61,18 @@ export  async function login(req,res){
                 photo : photo,
                 isAdmin: isAdmin
             }
+        isConnected = true;
         return res.json(obj)
+        let jsonObj = JSON.stringify(obj);
     }else{
         res.json("INVALID CREDENTIAL")
     }
 }
+
+
+export  async function isLogged(req, res) {
+    return res.json('200 : Error verifying token …')
+}
+
+
 

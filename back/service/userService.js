@@ -59,3 +59,21 @@ export async function loginService(email,password){
     }
 }
 
+
+// MIDDLEWARES  VERIFICATION SI LE TOKEN EXISTE
+export const guard = (req,res,next) =>{
+   // let {idToken} = req.body; //  
+
+  //  const token = idToken;
+    const token = req.headers.idToken;
+
+    try {
+        const verif = jwt.verify(token, AUTH_SECRET);
+
+        // console.log(verif, 'is valid!');
+        next();
+    }
+    catch (err) {
+        return res.json( `401 : Error verifying token … ${err.message}`)
+    }
+}
