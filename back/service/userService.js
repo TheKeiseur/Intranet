@@ -57,3 +57,21 @@ function getMappedUser(user) {
     isAdmin: user.isAdmin
   }
 }
+
+export  async  function  updateProfil(req,res){
+  const user = await UserModel.findOne({ id: req.params.id });
+
+  if (req.body.email && req.body.email !== user.email) {
+    const existingUser = await UserModel.findOne({ email: req.body.email });
+    if (existingUser)
+      return res.status(400).send("Email déjà utilisé");
+  }
+
+  const updatedUser = await UserModel.findOneAndUpdate(
+      { id: req.params.id },
+      req.body
+  );
+
+  // return res.status(200).send('success'); // @todo use this in prod
+  return res.status(200).send(updatedUser);
+}
