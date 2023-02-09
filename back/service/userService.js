@@ -69,12 +69,10 @@ export  async  function  updateProfil(req,res){
   }
 
   const salt = bcrypt.genSaltSync(10);
-  const hashedPassword = bcrypt.hashSync(payload.password, salt);
-
 
   const updatedUser = await UserModel.findOneAndUpdate({
     ...payload,
-    password: hashedPassword
+    password:  bcrypt.hashSync(payload.password, salt)
   });
   // return res.status(200).send('success'); // @todo use this in prod
   return res.status(200).send(updatedUser);
