@@ -58,9 +58,8 @@ function getMappedUser(user) {
   }
 }
 
-export  async  function  editProfilService(req,res){
+export  async  function  updateProfil(req,res){
   const user = await UserModel.findOne({ id: req.params.id });
-  if (!user) return res.status(404).send("Utilisateur non trouvé");
 
   if (req.body.email && req.body.email !== user.email) {
     const existingUser = await UserModel.findOne({ email: req.body.email });
@@ -70,8 +69,7 @@ export  async  function  editProfilService(req,res){
 
   const updatedUser = await UserModel.findOneAndUpdate(
       { id: req.params.id },
-      req.body,
-      { new: true }
+      req.body
   );
 
   // return res.status(200).send('success'); // @todo use this in prod

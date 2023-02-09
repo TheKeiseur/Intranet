@@ -15,7 +15,7 @@ router.get("/random-user", authGuard, randomUser);
 router.post("/login", login);
 
 // PUT
-router.put('/user/:id', editProfil)
+router.put('/user/:id',authGuard, editProfil)
 
 
 export default router;
