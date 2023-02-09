@@ -1,4 +1,4 @@
-import { authenticateAndGenerateToken, findById, getAllUsers, getRandomUser } from '../service/userService.js'
+import { authenticateAndGenerateToken, findById, getAllUsers, getRandomUser,editProfilService } from '../service/userService.js'
 
 import dotenv from "dotenv";
 
@@ -54,6 +54,23 @@ export async function login(req, res) {
 export async function randomUser(req, res) {
   let randomUser = await getRandomUser(req.auth.userId);
   return res.status(200).json(randomUser);
+}
+
+
+/**
+ * Login http://{hostname}:{port}/user/[x]
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
+import { UserModel } from "../Models/User.js";
+
+export async function editProfil(req, res) {
+  try {
+     let response = await editProfilService(req,res)
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
 }
 
 
