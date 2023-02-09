@@ -59,17 +59,18 @@ function getMappedUser(user) {
 }
 
 export  async  function  updateProfil(req,res){
+  const payload = req.body.user;
   const user = await UserModel.findOne({ id: req.params.id });
 
-  if (req.body.email && req.body.email !== user.email) {
-    const existingUser = await UserModel.findOne({ email: req.body.email });
+  if (payload.email && payload.email !== user.email) {
+    const existingUser = await UserModel.findOne({ email: payload.email });
     if (existingUser)
       return res.status(400).send("Email déjà utilisé");
   }
 
   const updatedUser = await UserModel.findOneAndUpdate(
       { id: req.params.id },
-      req.body
+      payload
   );
 
   // return res.status(200).send('success'); // @todo use this in prod

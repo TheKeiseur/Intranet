@@ -8,6 +8,12 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {UserBadgeComponent} from "../user-card/user-badge/user-badge.component";
 import {RouterModule} from "@angular/router";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @NgModule({
   declarations: [
@@ -21,7 +27,13 @@ import {RouterModule} from "@angular/router";
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatSlideToggleModule
   ],
   exports: [
     UserCardComponent,

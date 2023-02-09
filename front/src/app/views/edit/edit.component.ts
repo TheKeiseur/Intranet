@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {UserService} from "../../services/user.service";
+import {User} from "../../services/User";
+import {ActivatedRoute} from "@angular/router";
+import {concatMap} from "rxjs";
 
 @Component({
   selector: 'app-edit',
@@ -7,7 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditComponent implements OnInit {
 
-  constructor() { }
+  user?: User;
+
+  constructor(private userService: UserService,
+              private route: ActivatedRoute) {
+    this.route.params.pipe(
+      concatMap(params => {
+        const id = params['id'];
+        console.log('Id', id);
+        return this.userService.getUserById(id);
+      })).subscribe(user => this.user = user);
+  }
 
   ngOnInit(): void {
   }

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
@@ -9,6 +9,7 @@ import {AuthInterceptor} from "./utils/AuthInterceptor";
 import {SharedModule} from "./shared/shared-module/shared.module";
 import {HeaderComponent} from "./shared/header/header.component";
 import {JwtModule} from "@auth0/angular-jwt";
+import {MatMomentDateModule} from "@angular/material-moment-adapter";
 
 export function tokenGetter() {
   return localStorage.getItem("id_token");
@@ -32,8 +33,10 @@ export function tokenGetter() {
     SharedModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatMomentDateModule
   ],
   providers: [
+    {provide: LOCALE_ID, useValue: 'fr'},
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

@@ -19,8 +19,3 @@ export interface SimplifiedUser {
   photo: string;
   isAdmin: boolean;
 }
-
-export interface UserConnexionDto extends SimplifiedUser {
-  idToken: string;
-  expiresIn: string;
-}
