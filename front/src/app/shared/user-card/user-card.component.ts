@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {User} from "../../services/User";
 import * as moment from "moment";
 import {UserService} from "../../services/user.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-user-card',
@@ -12,13 +13,13 @@ export class UserCardComponent implements OnInit {
 
   @Input()
   user?: User;
-
-  @Input()
   isAdmin: boolean = false;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.getIsAdmin();
   }
 
   calcAge(dateString: string) {
