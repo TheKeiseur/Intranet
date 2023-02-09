@@ -8,7 +8,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthInterceptor} from "./utils/AuthInterceptor";
 import {SharedModule} from "./shared/shared-module/shared.module";
 import {HeaderComponent} from "./shared/header/header.component";
+import {JwtModule} from "@auth0/angular-jwt";
 
+export function tokenGetter() {
+  return localStorage.getItem("id_token");
+}
 
 @NgModule({
   declarations: [
@@ -18,6 +22,13 @@ import {HeaderComponent} from "./shared/header/header.component";
   imports: [
     BrowserModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["*"],
+        disallowedRoutes: ["http://example.com/examplebadroute/"],
+      },
+    }),
     SharedModule,
     AppRoutingModule,
     BrowserAnimationsModule,

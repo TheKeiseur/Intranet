@@ -1,85 +1,59 @@
-import {connectToMongo} from "../Models/db.js";
-import {UserModel} from "../Models/User.js";
-import crypto from "crypto";
+import { connectToMongo } from "../Models/db.js";
+import { UserModel } from "../Models/User.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-
 dotenv.config();
-const {AUTH_SECRET,EXPIRESIN } = process.env;
+const { AUTH_SECRET, EXPIRESIN } = process.env;
 connectToMongo().then(r => r);
 
-
-export async function findById(id){
-    const user = await UserModel.findOne({id:id });
-    return user;
+export async function findById(id) {
+  const user = await UserModel.findOne({ id: id });
+  return user;
 }
 
-export async function getAllUsers(){
-    const users = await UserModel.find();
-    return users;
+export async function getAllUsers() {
+  const users = await UserModel.find();
+  return users;
 }
 
-export async function getRandomUser(token){
-    const reverseToken = jwt.verify(token, AUTH_SECRET);
-
-    //db.users.find({id: { $ne: "20" }});
-    const users = await UserModel.find({id: { $ne: reverseToken.id }});
-    const randomIndex = Math.floor(Math.random() * users.length);
-    return users[randomIndex];
+export async function getRandomUser(userId) {
+  const users = await UserModel.find({ id: { $ne: userId } });
+  const randomIndex = Math.floor(Math.random() * users.length);
+  return users[randomIndex];
 }
 
-export async function loginService(email,password){
-    const user = await UserModel.findOne({email : email});
+export async function authenticateAndGenerateToken(email, password) {
+  const user = await UserModel.findOne({ email: email });
+  if (user) {
+    let userPassHash = user.password
+    const verified = bcrypt.compareSync(password, userPassHash);
 
-    if(user){
-        let userPassHash = user.password
-        let id = user.id
-        const verified = bcrypt.compareSync(password, userPassHash);
-
-        if( verified){
-            let date = new Date();
-            let dateString = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-
-            const info ={
-                id:id,
-                email: email,
-                period: dateString,
-            }
-            const token = jwt.sign(
-                info,
-                AUTH_SECRET,
-                { expiresIn: EXPIRESIN }   // validité temps
-            );
-            user.token = token
-
-            return  user
-        }else {
-            return {
-                error: 401,
-                message: "Unauthorized - Incorrect password"
-            }
-        }
-    }else{
-        return {
-            error: 404,
-            message: "User not found"
-        }
+    if (verified) {
+      const token = jwt.sign(getMappedUser(user), AUTH_SECRET, { expiresIn: EXPIRESIN });
+      return token;
+    } else {
+      throw new Error("Wrong credentials");
     }
+  }
+  throw new Error("User not recognized");
 }
 
-
-// MIDDLEWARES  VERIFICATION SI LE TOKEN EXISTE
-export const guard = (req,res,next) =>{
-    let token = req.headers.idToken;
-
-    try {
-        const verif = jwt.verify(token, AUTH_SECRET);
-        // console.log(verif, 'is valid!');
-        next();
-    }
-    catch (err) {
-        return res.json( `401 : Error verifying token … ${err.message}`)
-    }
+function getMappedUser(user) {
+  return {
+    id: user.id,
+    gender: user.gender,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    email: user.email,
+    password: user.password,
+    phone: user.phone,
+    birthdate: user.birthdate,
+    city: user.city,
+    country: user.country,
+    photo: user.photo,
+    category: user.category,
+    isAdmin: user.isAdmin
+  }
 }
