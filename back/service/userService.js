@@ -85,3 +85,17 @@ export  async  function  userDelete(req,res){
   await UserModel.deleteOne({ id: req.params.id });
   return res.send("Utilisateur supprimé");
 }
+
+export async function createUser(req, res) {
+  const payload = req.body.user;
+  const userExists = await UserModel.findOne({ email: payload.email});
+  if (userExists) {
+    res.status(400).send("User already exists")
+  }
+  const userToCreate = new UserModel(payload);
+  const createdUser = await userToCreate.save();
+  console.log(createdUser);
+  res.status(200).send({
+    "user": createdUser
+  });
+}

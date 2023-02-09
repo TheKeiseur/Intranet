@@ -19,11 +19,11 @@
   <div class="row">
     <mat-form-field appearance="outline" class="col-md-6">
       <mat-label>Nom</mat-label>
-      <input matInput formControlName="lastname">
+      <input matInput formControlName="lastName">
     </mat-form-field>
     <mat-form-field appearance="outline" class="col-md-6">
       <mat-label>Prénom</mat-label>
-      <input matInput formControlName="firstname">
+      <input matInput formControlName="firstName">
     </mat-form-field>
   </div>
   <div class="row">
@@ -72,7 +72,7 @@
     </mat-form-field>
   </div>
   <div class="row pb-3">
-    <mat-slide-toggle formControlName="isAdmin" [hidden]="!getIsAdmin()">Est administrateur</mat-slide-toggle>
+    <mat-slide-toggle value="false" formControlName="isAdmin" [hidden]="!getIsAdmin()">Est administrateur</mat-slide-toggle>
   </div>
   <button mat-flat-button (click)="submit()" color="primary" [disabled]="form.invalid">Valider</button>
 </form>

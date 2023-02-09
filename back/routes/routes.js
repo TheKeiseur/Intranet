@@ -1,6 +1,6 @@
 import { Router } from "express";
 import HomeController from "../controllers/homeController.js";
-import { getUserById, login, randomUser, users, editProfil,deleteUser} from '../controllers/userController.js';
+import { getUserById, login, randomUser, users, editProfil, deleteUser,  create} from '../controllers/userController.js';
 import { authGuard } from '../middlewares/AuthGuard.js';
 
 const router = Router();
@@ -13,9 +13,10 @@ router.get("/random-user", authGuard, randomUser);
 
 // POST
 router.post("/login", login);
+router.post("/admin/add", authGuard, create)
 
 // PUT
-router.put('/user/:id', editProfil)
+router.put('/user/:id', authGuard, editProfil)
 //DELETE
 router.delete("/admin/delete/:id",authGuard, deleteUser)
 
