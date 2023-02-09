@@ -1,1 +1,9 @@
 <p>users works!</p>
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile  *ngFor="let user of users$ | async">
+    <app-user-card style="width: 650px" [user]="user"></app-user-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
+<!--<app-user-card *ngFor="let user of users$ | async" [user]="user" ></app-user-card>-->

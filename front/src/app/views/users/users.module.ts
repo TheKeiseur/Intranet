@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
+import {SharedModule} from "../../shared/shared-module/shared.module";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import { UsersComponent } from './users.component';
   ],
   imports: [
     CommonModule,
-    UsersRoutingModule
+    UsersRoutingModule,
+    SharedModule,
+    MatGridListModule
   ]
 })
 export class UsersModule { }
