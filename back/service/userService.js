@@ -75,3 +75,11 @@ export  async  function  updateProfil(req,res){
   // return res.status(200).send('success'); // @todo use this in prod
   return res.status(200).send(updatedUser);
 }
+
+export  async  function  userDelete(req,res){
+  const user = await UserModel.findOne({ id: req.params.id });
+  if (!user) return res.status(404).send("Utilisateur non trouvé");
+
+  await UserModel.deleteOne({ id: req.params.id });
+  return res.send("Utilisateur supprimé");
+}

@@ -1,4 +1,4 @@
-import { authenticateAndGenerateToken, findById, getAllUsers, getRandomUser,updateProfil } from '../service/userService.js'
+import { authenticateAndGenerateToken, findById, getAllUsers, getRandomUser,updateProfil,userDelete } from '../service/userService.js'
 
 import dotenv from "dotenv";
 
@@ -70,6 +70,21 @@ export async function editProfil(req, res) {
     return res.status(500).send(err.message);
   }
 }
+
+/**
+ * Login http://{hostname}:{port}/delete/[x]
+ * @param req
+ * @param res
+ * @returns {Promise<*>}
+ */
+export async function deleteUser(req, res) {
+  try {
+    let response = await userDelete(req,res)
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}
+
 
 
 
