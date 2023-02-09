@@ -28,8 +28,8 @@ export class UserFormComponent implements OnInit {
     this.form = this.formBuilder.group({
       gender: new FormControl(this.user?.gender, [Validators.required]),
       category: new FormControl(this.user?.category, [Validators.required]),
-      lastname: new FormControl(this.user?.lastname, [Validators.required]),
-      firstname: new FormControl(this.user?.firstname, [Validators.required]),
+      lastName: new FormControl(this.user?.lastName, [Validators.required]),
+      firstName: new FormControl(this.user?.firstName, [Validators.required]),
       email: new FormControl(this.user?.email, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required]),
       confirmPassword: new FormControl(null),
@@ -64,6 +64,9 @@ export class UserFormComponent implements OnInit {
   private createUser() {
     console.log("Create");
     const user: User = this.form.value;
+    if (user.isAdmin === null || undefined) {
+      user.isAdmin = false;
+    }
     this.userService.createUser(user).subscribe(() => this.router.navigateByUrl('/users'));
   }
 

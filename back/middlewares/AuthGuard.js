@@ -10,7 +10,8 @@ export const authGuard = (req, res, next) => {
     const verif = jwt.verify(token, process.env.AUTH_SECRET);
     req.auth = {
       userId: verif.id,
-      email: verif.email
+      email: verif.email,
+      isAdmin: verif.isAdmin
     }
     next();
   } catch (error) {

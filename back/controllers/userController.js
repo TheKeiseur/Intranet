@@ -1,5 +1,4 @@
- 
-import { authenticateAndGenerateToken, findById, getAllUsers, getRandomUser,updateProfil,userDelete } from '../service/userService.js'
+import { authenticateAndGenerateToken, findById, getAllUsers, getRandomUser,updateProfil, createUser, userDelete } from '../service/userService.js'
 
 import dotenv from "dotenv";
 
@@ -83,5 +82,13 @@ export async function deleteUser(req, res) {
     let response = await userDelete(req,res)
   } catch (err) {
     return res.status(500).send(err.message);
+  }
+}
+
+export async function create(req, res) {
+  try {
+    let createdUser = await createUser(req, res);
+  } catch (err) {
+    return res.status(err.status).send(err.message);
   }
 }
