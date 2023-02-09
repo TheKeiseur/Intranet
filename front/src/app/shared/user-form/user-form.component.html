@@ -1,1 +1,78 @@
-<p>user-form works!</p>
+<form [formGroup]="form">
+  <div class="row">
+    <mat-form-field appearance="outline" class="col-md-6">
+      <mat-label>Civilité</mat-label>
+      <mat-select formControlName="gender">
+        <mat-option value="male">Homme</mat-option>
+        <mat-option value="female">Femme</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-md-6">
+      <mat-label>Catégorie</mat-label>
+      <mat-select formControlName="category">
+        <mat-option value="Client">Client</mat-option>
+        <mat-option value="Marketing">Marketing</mat-option>
+        <mat-option value="Technique">Technique</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field appearance="outline" class="col-md-6">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="lastname">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-md-6">
+      <mat-label>Prénom</mat-label>
+      <input matInput formControlName="firstname">
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field appearance="outline" class="col-md-6">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+      <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-md-6">
+      <mat-label>Téléphone</mat-label>
+      <input matInput formControlName="phone">
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field appearance="outline" class="col-auto">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-md-6" *ngIf="!isAdd">
+      <mat-label>Confirmation</mat-label>
+      <input matInput type="password" formControlName="confirmPassword">
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field appearance="outline" class="solo-form-field">
+      <mat-label>Date de naissance</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="birthdate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field appearance="outline" class="col-md-6">
+      <mat-label>Ville</mat-label>
+      <input matInput formControlName="city">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-md-6">
+      <mat-label>Pays</mat-label>
+      <input matInput formControlName="country">
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field appearance="outline" class="solo-form-field">
+      <mat-label>URL de la photo</mat-label>
+      <input matInput formControlName="photo">
+    </mat-form-field>
+  </div>
+  <div class="row pb-3">
+    <mat-slide-toggle formControlName="isAdmin" [hidden]="!getIsAdmin()">Est administrateur</mat-slide-toggle>
+  </div>
+  <button mat-flat-button (click)="submit()" color="primary" [disabled]="form.invalid">Valider</button>
+</form>
