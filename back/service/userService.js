@@ -67,11 +67,21 @@ export  async  function  updateProfil(req,res){
       return res.status(400).send("Email déjà utilisé");
   }
 
-  const updatedUser = await UserModel.findOneAndUpdate(
-      { id: req.params.id },
-      req.body
-  );
+  const salt = bcrypt.genSaltSync(10);
+  const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
+  const updatedUser = await UserModel.findOneAndUpdate({
+    ...req.body,
+    password: hashedPassword
+  });
   // return res.status(200).send('success'); // @todo use this in prod
   return res.status(200).send(updatedUser);
+}
+
+export  async  function  userDelete(req,res){
+  const user = await UserModel.findOne({ id: req.params.id });
+  if (!user) return res.status(404).send("Utilisateur non trouvé");
+
+  await UserModel.deleteOne({ id: req.params.id });
+  return res.send("Utilisateur supprimé");
 }
