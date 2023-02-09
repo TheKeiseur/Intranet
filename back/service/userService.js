@@ -74,6 +74,7 @@ export  async  function  updateProfil(req,res){
     ...req.body,
     password: hashedPassword
   });
+  
   // return res.status(200).send('success'); // @todo use this in prod
   return res.status(200).send(updatedUser);
 }

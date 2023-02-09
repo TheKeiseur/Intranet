@@ -25,7 +25,7 @@ export async function users(req, res) {
  * @returns {Promise<*>}
  */
 export async function getUserById(req, res) {
-  let id = req.auth.userId;
+  let id = req.params.id;
   let rep = await findById(id);
   return res.status(200).json(rep)
 }

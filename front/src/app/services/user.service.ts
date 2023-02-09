@@ -20,7 +20,22 @@ export class UserService {
     return this.http.get<User>(`${environment.baseUrl}/random-user`);
   }
 
+  createUser(user: User): Observable<User> {
+    const userDto = {
+      "user": user
+    }
+    return this.http.post<User>(`${environment.baseUrl}/admin/add`, userDto);
+  }
+
+  updateUser(user: User): Observable<User> {
+    const userDto = {
+      "user": user
+    }
+    return this.http.put<User>(`${environment.baseUrl}/user/${user.id}`, userDto);
+  }
+
   deleteUserById(id: string) {
+    return this.http.delete(`${environment.baseUrl}/admin/delete/${id}`);
   }
 
 }

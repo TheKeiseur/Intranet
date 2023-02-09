@@ -18,7 +18,7 @@
       <p>Anniversaire : {{ getBirthdate(user.birthdate) | titlecase}}</p>
     </mat-card-content>
     <mat-card-actions *ngIf="isAdmin">
-      <a mat-flat-button color="primary" [routerLink]="'user/'+user.id+'/edit'">EDITER</a>
+      <a mat-flat-button color="primary" [routerLink]="'/user/'+user.id+'/edit'">EDITER</a>
       <a mat-flat-button color="primary" class="ms-3" (click)="deleteUser()">SUPPRIMER</a>
     </mat-card-actions>
   </div>
