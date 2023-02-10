@@ -80,9 +80,9 @@ export  async  function  updateProfil(req,res){
 
 export  async  function  userDelete(req,res){
   const user = await UserModel.findById(req.params.id);
-  if (!user) return res.status(404).send("Utilisateur non trouvé");
+  if (!user) return res.status(404).json("Utilisateur non trouvé");
   await UserModel.findByIdAndDelete(req.params.id);
-  return res.send("Utilisateur supprimé");
+  return res.status(200).json("Utilisateur supprimé");
 }
 
 export async function createUser(req, res) {

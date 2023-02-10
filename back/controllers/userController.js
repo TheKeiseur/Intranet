@@ -79,7 +79,7 @@ export async function editProfil(req, res) {
  */
 export async function deleteUser(req, res) {
   try {
-    let response = await userDelete(req,res)
+    await userDelete(req,res);
   } catch (err) {
     return res.status(500).send(err.message);
   }
