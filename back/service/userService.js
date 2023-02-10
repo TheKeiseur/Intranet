@@ -9,27 +9,27 @@ const { AUTH_SECRET, EXPIRESIN } = process.env;
 connectToMongo().then(r => r);
 
 export async function findById(id) {
-  const user = await UserModel.findOne({ id: id });
-  return user;
+  const user = await UserModel.findById(id).exec();
+  return getMappedUser(user);
 }
 
 export async function getAllUsers() {
   const users = await UserModel.find();
-  return users;
+  const mappedUserList = users.map(user => getMappedUser(user));
+  return mappedUserList;
 }
 
 export async function getRandomUser(userId) {
-  const users = await UserModel.find({ id: { $ne: userId } });
+  const users = await UserModel.find({ _id: { $ne: userId } });
   const randomIndex = Math.floor(Math.random() * users.length);
-  return users[randomIndex];
+  return getMappedUser(users[randomIndex]);
 }
 
 export async function authenticateAndGenerateToken(email, password) {
-  const user = await UserModel.findOne({ email: email });
+  const user = await UserModel.findOne({ email: email});
   if (user) {
     let userPassHash = user.password
     const verified = bcrypt.compareSync(password, userPassHash);
-
     if (verified) {
       const token = jwt.sign(getMappedUser(user), AUTH_SECRET, { expiresIn: EXPIRESIN });
       return token;
@@ -42,7 +42,7 @@ export async function authenticateAndGenerateToken(email, password) {
 
 function getMappedUser(user) {
   return {
-    id: user.id,
+    id: user._id,
     gender: user.gender,
     firstname: user.firstname,
     lastname: user.lastname,
@@ -60,7 +60,7 @@ function getMappedUser(user) {
 
 export  async  function  updateProfil(req,res){
   const payload = req.body.user;
-  const user = await UserModel.findOne({ id: req.params.id });
+  const user = await UserModel.findById(req.params.id).exec();
 
   if (payload.email && payload.email !== user.email) {
     const existingUser = await UserModel.findOne({ email: payload.email });
@@ -79,11 +79,10 @@ export  async  function  updateProfil(req,res){
 }
 
 export  async  function  userDelete(req,res){
-  const user = await UserModel.findOne({ id: req.params.id });
-  if (!user) return res.status(404).send("Utilisateur non trouvé");
-
-  await UserModel.deleteOne({ id: req.params.id });
-  return res.send("Utilisateur supprimé");
+  const user = await UserModel.findById(req.params.id);
+  if (!user) return res.status(404).json("Utilisateur non trouvé");
+  await UserModel.findByIdAndDelete(req.params.id);
+  return res.status(200).json("Utilisateur supprimé");
 }
 
 export async function createUser(req, res) {
@@ -109,7 +108,7 @@ export async function countUser(res) {
 }
 
 export async function getCategory(){
-  // db.users.distinct("category"); 
+  // db.users.distinct("category");
   const categories = await UserModel.distinct("category");
   return categories;
 }

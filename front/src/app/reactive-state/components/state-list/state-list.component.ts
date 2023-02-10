@@ -77,8 +77,8 @@ export class StateListComponent implements OnInit {
 
     const search$ = this.searchCtrl.valueChanges.pipe(
       startWith(this.searchCtrl.value),
-      // map(value => value.toLowerCase()) //@todo use this when fild  firstName is renamed  to firstname
-      map(value => value)
+      map(value => value.toLowerCase()) //@todo use this when fild  firstName is renamed  to firstname
+      // map(value => value)
     );
 
 

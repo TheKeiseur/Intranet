@@ -1,1 +1,7 @@
-<app-user-card [user]="randUser"></app-user-card>
+<section class="text-center">
+  <h1 class="border-bottom pb-3">Bienvenue sur l'intranet</h1>
+  <p>La plate-forme de l'entreprise qui vous permet de retrouver tous vos collaborateurs.</p>
+  <h3>Avez-vous dit bonjour à :</h3>
+  <app-user-card [user]="randUser" class="row justify-content-center mt-4"></app-user-card>
+  <button mat-flat-button color="primary" class="text-uppercase mt-5" (click)="getRandomUser()">Dire bonjour à quelqu'un d'autre</button>
+</section>

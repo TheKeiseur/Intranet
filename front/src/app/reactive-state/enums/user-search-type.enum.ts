@@ -1,5 +1,5 @@
 export enum UserSearchType{
-  FIRSTNAME = 'firstName',
+  FIRSTNAME = 'firstname',
   EMAIL = 'email',
   CITY = 'city',
   CATEGORY = 'category'

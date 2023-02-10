@@ -42,7 +42,7 @@ export class LoginPageComponent implements OnInit {
         .subscribe(
           () => {
             this.isLoading = false;
-            this.router.navigateByUrl('/');
+            this.router.navigateByUrl('/home');
           }
         );
     }

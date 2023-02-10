@@ -14,6 +14,13 @@ const { EXPIRESIN } = process.env;
  */
 export async function users(req, res) {
   let response = await getAllUsers();
+    console.log(response)
+  return res.status(200).json(response);
+}
+
+export async function usersOld(req, res) {
+  let response = await getAll-old();
+  console.log(response)
   return res.status(200).json(response);
 }
 
@@ -41,7 +48,7 @@ export async function login(req, res) {
     let token = await authenticateAndGenerateToken(email, password);
     return res.status(200).json({ "idToken": token })
   } catch (err) {
-    return res.status(401).message(err.message);
+    return res.status(401).send(err.message);
   }
 }
 
@@ -79,7 +86,7 @@ export async function editProfil(req, res) {
  */
 export async function deleteUser(req, res) {
   try {
-    let response = await userDelete(req,res)
+    await userDelete(req,res);
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -89,7 +96,7 @@ export async function create(req, res) {
   try {
     let createdUser = await createUser(req, res);
   } catch (err) {
-    return res.status(err.status).send(err.message);
+    return res.status(404).send(err.message);
   }
 }
 

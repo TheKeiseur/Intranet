@@ -24,12 +24,11 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.user);
     this.form = this.formBuilder.group({
       gender: new FormControl(this.user?.gender, [Validators.required]),
       category: new FormControl(this.user?.category, [Validators.required]),
-      lastName: new FormControl(this.user?.lastName, [Validators.required]),
-      firstName: new FormControl(this.user?.firstName, [Validators.required]),
+      lastname: new FormControl(this.user?.lastname, [Validators.required]),
+      firstname: new FormControl(this.user?.firstname, [Validators.required]),
       email: new FormControl(this.user?.email, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required]),
       confirmPassword: new FormControl(null),
@@ -62,7 +61,6 @@ export class UserFormComponent implements OnInit {
   }
 
   private createUser() {
-    console.log("Create");
     const user: User = this.form.value;
     if (user.isAdmin === null || undefined) {
       user.isAdmin = false;
@@ -71,7 +69,6 @@ export class UserFormComponent implements OnInit {
   }
 
   private updateUser() {
-    console.log("Update");
     const user: User = this.form.value;
     user.id = this.user!.id;
     this.userService.updateUser(user).subscribe(() => this.router.navigateByUrl('/users'));
