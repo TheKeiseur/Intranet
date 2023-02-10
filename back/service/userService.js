@@ -101,3 +101,15 @@ export async function createUser(req, res) {
     "user": createdUser
   });
 }
+
+
+export async function countUser(res) {
+  const count = await UserModel.countDocuments({});
+  return  count;
+}
+
+export async function getCategory(){
+  // db.users.distinct("category"); 
+  const categories = await UserModel.distinct("category");
+  return categories;
+}

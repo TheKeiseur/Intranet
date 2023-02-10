@@ -44,5 +44,8 @@ export class UserService {
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${environment.baseUrl}/users`)
   }
+  getNbUser(): Observable<any> {
+    return this.http.get<User[]>(`${environment.baseUrl}/user-count`)
+  }
 
 }

@@ -23,6 +23,10 @@ const routes: Routes = [
     loadChildren: () => import('./views/edit/edit.module').then(m => m.EditModule)
   },
   {
+    path: 'reactive',
+    loadChildren: () => import('./reactive-state/reactive-state.module').then(m => m.ReactiveStateModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./views/home/home.module').then(m => m.HomeModule)
   }
