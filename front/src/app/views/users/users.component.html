@@ -1,10 +1,11 @@
-<p>users works!</p>
 <!--@todo insertion reactive search-->
-<app-state-list></app-state-list>
-<mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile  *ngFor="let user of users$ | async">
-    <app-user-card style="width: 650px" [user]="user"></app-user-card>
-  </mat-grid-tile>
-</mat-grid-list>
-
+<h1 class="text-center">Liste collaborateurs</h1>
+<div *ngIf="users">
+  <app-state-list [users]="users" (onFilter)="$event"></app-state-list>
+  <mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile *ngFor="let user of users | async">
+      <app-user-card style="width: 650px" [user]="user"></app-user-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
 <!--<app-user-card *ngFor="let user of users$ | async" [user]="user" ></app-user-card>-->

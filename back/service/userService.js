@@ -16,6 +16,7 @@ export async function findById(id) {
 export async function getAllUsers() {
   const users = await UserModel.find();
   const mappedUserList = users.map(user => getMappedUser(user));
+  console.log(mappedUserList);
   return mappedUserList;
 }
 

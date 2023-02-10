@@ -13,8 +13,9 @@ const { EXPIRESIN } = process.env;
  * @returns {Promise<void>}
  */
 export async function users(req, res) {
+  console.log('Hello world');
   let response = await getAllUsers();
-    console.log(response)
+  console.log(response)
   return res.status(200).json(response);
 }
 

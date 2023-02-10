@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {combineLatest, map, Observable, startWith} from "rxjs";
 import {User} from "../../../services/User";
 import {FormBuilder, FormControl} from "@angular/forms";
@@ -16,9 +16,18 @@ import {UserCategoryType} from "../../enums/user-category-type.enum";
 })
 export class StateListComponent implements OnInit {
 
+  @Input()
+  users$!: User[];
+
+  @Output()
+  filteredUsers!: EventEmitter<User[]>;
+
+//   this.formGroup.onValueChanges(values => {
+//     this.filteredUsers.emit(users$);
+// })
+
 // @Input() obj!: {titre: string,cat: string};
   loading$ !: Observable<boolean>;
-  users$!: Observable<User[]>;
 
   // display list
   display!: boolean;
@@ -105,7 +114,7 @@ export class StateListComponent implements OnInit {
     // this.display = !this.display;
     // this.stateService.searchEstCliquer = true;
     this.stateService.searchEstCliquer = !this.stateService.searchEstCliquer;
-    this.stateService.searchEstCliquer = true;
+    // this.stateService.searchEstCliquer = true;
 
   }
 

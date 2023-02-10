@@ -23,20 +23,19 @@
         <mat-hint>Category</mat-hint>
       </mat-form-field>
 
-
   </mat-card-title-group>
 <!--  <div *ngIf="stateService.searchEstCliquer">-->
 <!--    <button  mat-raised-button color="primary" (click)="stateService.searchEstCliquer = false"> Retour </button>-->
 <!--  </div>-->
 <!--  <div *ngIf="stateService.searchEstCliquer">-->
-    <div  >
-    <mat-spinner *ngIf="loading$ | async"></mat-spinner>
-    <mat-grid-list cols="2" rowHeight="2:1">
-      <mat-grid-tile  *ngFor="let user of users$ | async">
-        <app-user-card style="width: 650px" [user]="user"></app-user-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
+<!--&lt;!&ndash;    <div  >&ndash;&gt;-->
+<!--    <mat-spinner *ngIf="loading$ | async"></mat-spinner>-->
+<!--    <mat-grid-list cols="2" rowHeight="2:1">-->
+<!--      <mat-grid-tile  *ngFor="let user of users$ | async">-->
+<!--        <app-user-card style="width: 650px" [user]="user"></app-user-card>-->
+<!--      </mat-grid-tile>-->
+<!--    </mat-grid-list>-->
+<!--  </div>-->
 
 </mat-card>
 

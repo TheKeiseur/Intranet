@@ -10,13 +10,16 @@ import {User} from "../../services/User";
 })
 export class UsersComponent implements OnInit {
 
-  users$!: Observable<User[]>
-  users!: User;
+  users!: User[];
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.users$ = this.userService.getAllUsers();
+    this.userService.getAllUsers().subscribe(users => this.users = users);
+  }
+
+  onFilter($event: User[]) {
+    this.users = $event;
   }
 
 }
