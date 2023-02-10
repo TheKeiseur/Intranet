@@ -38,4 +38,14 @@ export class UserService {
     return this.http.delete(`${environment.baseUrl}/admin/delete/${id}`);
   }
 
+
+
+  //
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${environment.baseUrl}/users`)
+  }
+  getNbUser(): Observable<any> {
+    return this.http.get<User[]>(`${environment.baseUrl}/user-count`)
+  }
+
 }

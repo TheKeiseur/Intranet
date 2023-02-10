@@ -33,7 +33,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     MatSelectModule,
     MatInputModule,
     MatDatepickerModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
   exports: [
     UserCardComponent,

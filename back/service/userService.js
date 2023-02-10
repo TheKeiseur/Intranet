@@ -15,7 +15,7 @@ export async function findById(id) {
 
 export async function getAllUsers() {
   const users = await UserModel.find();
-  const mappedUserList = users.forEach(user => getMappedUser(user));
+  const mappedUserList = users.map(user => getMappedUser(user));
   return mappedUserList;
 }
 
@@ -99,4 +99,16 @@ export async function createUser(req, res) {
   res.status(200).send({
     "user": createdUser
   });
+}
+
+
+export async function countUser(res) {
+  const count = await UserModel.countDocuments({});
+  return  count;
+}
+
+export async function getCategory(){
+  // db.users.distinct("category");
+  const categories = await UserModel.distinct("category");
+  return categories;
 }

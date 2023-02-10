@@ -1,4 +1,4 @@
-import { authenticateAndGenerateToken, findById, getAllUsers, getRandomUser,updateProfil, createUser, userDelete } from '../service/userService.js'
+import { authenticateAndGenerateToken, findById, getAllUsers, getRandomUser,updateProfil, createUser, userDelete,countUser,getCategory} from '../service/userService.js'
 
 import dotenv from "dotenv";
 
@@ -14,6 +14,13 @@ const { EXPIRESIN } = process.env;
  */
 export async function users(req, res) {
   let response = await getAllUsers();
+    console.log(response)
+  return res.status(200).json(response);
+}
+
+export async function usersOld(req, res) {
+  let response = await getAll-old();
+  console.log(response)
   return res.status(200).json(response);
 }
 
@@ -90,5 +97,29 @@ export async function create(req, res) {
     let createdUser = await createUser(req, res);
   } catch (err) {
     return res.status(404).send(err.message);
+  }
+}
+
+
+//
+export async function nbUser(req, res) {
+  try {
+    let response = await countUser(res);
+    console.log(response)
+    return res.json(response)
+  } catch (err) {
+    return res.status(err.status).send(err.message);
+  }
+}
+
+export async function getCategories(req,res){
+  try {
+    const response = await getCategory();
+    if (!response) {
+      return res.status(400).send({ error: "No categories found." });
+    }
+    return res.json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 }

@@ -16,7 +16,11 @@ const routes: Routes = [
   {
     path: 'users',
     loadChildren: () => import('./views/users/users.module').then(m => m.UsersModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'reactive',
+    loadChildren: () => import('./reactive-state/reactive-state.module').then(m => m.ReactiveStateModule)
   },
   {
     path: 'user/create',
@@ -28,7 +32,9 @@ const routes: Routes = [
     loadChildren: () => import('./views/edit/edit.module').then(m => m.EditModule),
     canActivate: [AuthGuard]
   },
+
   {
+
     path: '', redirectTo: 'login', pathMatch: 'full'
   },
   {

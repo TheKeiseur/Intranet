@@ -1,0 +1,42 @@
+
+<mat-card>
+  <mat-card-title-group>
+      <mat-form-field style="width: 50%"   color="primary"   appearance="outline"  (click)="onPress()" >
+        <mat-label>Vous cherchez ?</mat-label>
+        <input   matInput type="text" placeholder="..."  [formControl]="searchCtrl">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dans les </mat-label>
+        <mat-select [formControl]="searchTypeCtrl">
+          <mat-option *ngFor="let option of searchTypeOptions" [value]="option.value">{{ option.label }}</mat-option>
+        </mat-select>
+        <mat-hint>Recherchez par</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dans les </mat-label>
+        <mat-select [formControl]="categoryTypeCtrl">
+          <mat-option *ngFor="let option of categoryTypeOptions" [value]="option.value">{{ option.label }}</mat-option>
+        </mat-select>
+        <mat-hint>Category</mat-hint>
+      </mat-form-field>
+
+
+  </mat-card-title-group>
+<!--  <div *ngIf="stateService.searchEstCliquer">-->
+<!--    <button  mat-raised-button color="primary" (click)="stateService.searchEstCliquer = false"> Retour </button>-->
+<!--  </div>-->
+<!--  <div *ngIf="stateService.searchEstCliquer">-->
+    <div  >
+    <mat-spinner *ngIf="loading$ | async"></mat-spinner>
+    <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-tile  *ngFor="let user of users$ | async">
+        <app-user-card style="width: 650px" [user]="user"></app-user-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+</mat-card>
+
