@@ -3,6 +3,7 @@ import {User} from "../../services/User";
 import * as moment from "moment";
 import {UserService} from "../../services/user.service";
 import {AuthService} from "../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-card',
@@ -16,7 +17,9 @@ export class UserCardComponent implements OnInit {
   isAdmin: boolean = false;
 
   constructor(private userService: UserService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private router: Router) {
+  }
 
   ngOnInit(): void {
     this.isAdmin = this.authService.getIsAdmin();
@@ -33,7 +36,7 @@ export class UserCardComponent implements OnInit {
   }
 
   deleteUser() {
-    this.userService.deleteUserById(this.user!.id);
+    this.userService.deleteUserById(this.user!.id).subscribe(() => this.router.navigateByUrl('/users'));
   }
 
 }
