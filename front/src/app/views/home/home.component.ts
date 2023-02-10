@@ -18,8 +18,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getRandomUser().subscribe(user => this.randUser = user);
+    this.getRandomUser();
     this.isAdmin = this.authService.getIsAdmin();
   }
 
+  getRandomUser() {
+    this.userService.getRandomUser().subscribe(user => this.randUser = user);
+  }
 }

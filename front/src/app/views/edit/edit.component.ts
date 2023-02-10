@@ -18,7 +18,6 @@ export class EditComponent implements OnInit {
     this.route.params.pipe(
       concatMap(params => {
         const id = params['id'];
-        console.log('Id', id);
         return this.userService.getUserById(id);
       })).subscribe(user => this.user = user);
   }
