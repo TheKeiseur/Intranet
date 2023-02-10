@@ -41,7 +41,7 @@ export async function login(req, res) {
     let token = await authenticateAndGenerateToken(email, password);
     return res.status(200).json({ "idToken": token })
   } catch (err) {
-    return res.status(401).message(err.message);
+    return res.status(401).send(err.message);
   }
 }
 
@@ -89,6 +89,6 @@ export async function create(req, res) {
   try {
     let createdUser = await createUser(req, res);
   } catch (err) {
-    return res.status(err.status).send(err.message);
+    return res.status(404).send(err.message);
   }
 }
